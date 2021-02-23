@@ -9,6 +9,8 @@ paths:
     get:
       tags:
        - Accounts
+      x-controller: accounts
+      x-operation: findAccount
       summary: searches accounts
       security:
         - Bearer: []
@@ -36,6 +38,8 @@ paths:
     post:
       tags:
        - Accounts
+      x-controller: accounts
+      x-operation: createAccount
       summary: adds an account
       security:
         - Bearer: []
@@ -56,6 +60,8 @@ paths:
     put:
       tags:
        - Accounts
+      x-controller: accounts
+      x-operation: updateAccount
       summary: edits an account
       security:
         - Bearer: []

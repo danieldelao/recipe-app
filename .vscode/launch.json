@@ -12,6 +12,19 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\recipe-app\\api\\index.js"
-        }
+        },
+        {
+            "name": "Run API",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npx",
+            "runtimeArgs": [
+              "ts-node",
+              "--files",
+              "--project",
+              "api\\tsconfig.json",
+              "api\\index.ts"
+            ]
+          }
     ]
 }
