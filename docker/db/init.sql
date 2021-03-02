@@ -1,7 +1,7 @@
 -- accounts
 
 CREATE TABLE "accounts" (
-    "id" characers(32) NOT NULL, 
+    "id" character(32) NOT NULL, 
     "username" character varying(40) NOT NULL,
     "password" character varying(80) NOT NULL,
     PRIMARY KEY ("id")
@@ -15,4 +15,4 @@ CREATE INDEX "accounts_username" ON "accounts" ("username");
 
 -- test database
 
-CREATE DATABASE test WITH TEMPLATE recipe-app
+CREATE DATABASE test WITH TEMPLATE recipeapp

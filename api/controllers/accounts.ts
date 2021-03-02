@@ -10,6 +10,14 @@ export default function (conn: PoolClient) {
     async updateAccount (req: express.Request, res: express.Response) {
       res.status(200)
       res.send()
+    },
+    async deleteAccount (req: express.Request, res: express.Response) {
+      res.status(201)
+      res.send()
+    },
+    async readAccount (req: express.Request, res: express.Response) {
+      res.status(200)
+      res.send()
     }
   }
 }

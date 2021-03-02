@@ -10,7 +10,7 @@ paths:
       tags:
        - Accounts
       x-controller: accounts
-      x-operation: findAccount
+      x-operation: readAccount
       summary: searches accounts
       security:
         - Bearer: []
