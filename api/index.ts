@@ -1,15 +1,31 @@
+import dbFactory from './db'
+import dotenv from 'dotenv'
 import Enforcer from 'openapi-enforcer'
 import EnforcerMiddleware from 'openapi-enforcer-middleware'
 import express from 'express'
 import path from 'path'
+import {Pool, Client} from 'pg'
+
+dotenv.config()
+
+
+const pool = new Pool ({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+  port: +process.env.DB_PORT,
+})
 
 // Create express instance
 const app = express()
 
 // Create a simple logging middleware
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   console.log(req.method.toUpperCase() + ' ' + req.path)
   next()
+
+  
 })
 
 // Add Body Parser
@@ -28,7 +44,7 @@ enforcerMiddleware.on('error', (err: Error) => {
 }) 
 
 const controllersPath = path.resolve(__dirname, 'controllers')
-app.use(enforcerMiddleware.route(controllersPath))
+app.use(enforcerMiddleware.route(controllersPath, [pool]))
 
 // Export express app
 module.exports = app
