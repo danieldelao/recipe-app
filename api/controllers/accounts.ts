@@ -1,24 +1,40 @@
 import { PoolClient } from 'pg'
 import express from 'express'
-import { Controller } from '../db'
+import dbFactory from '../db'
 
-export default function (db: Controller) {
+export default function (conn: PoolClient) {
   return {
     async createAccount (req: express.Request, res: express.Response) {
-      const result = await db.accounts.createAccount(req.body.username, req.body.password)
-      // db.accounts.createAccount("claire", "manwaring")
-      //check for if it added a row
-      console.log(result.rowCount)
+      let name = req.body.username
+      let password = req.body.password
+      const connection = dbFactory(conn)
+      await connection.accounts.createAccount(name, password)
       res.status(201)
       res.send()
     },
-    async updateAccount (req: express.Request, res: express.Response) {
-      const result = await db.accounts.updateAccount(req.body.username, req.body.password)
+
+    async deleteAccount (req: express.Request, res: express.Response) {
+      let name = req.enforcer.params.username
+      //req.enforcer.params.query
+      console.log(name)
+      const connection = dbFactory(conn)
+      await connection.accounts.deleteAccount(name)
+      res.status(201)
+      res.send()
+    },
+
+    async findAccount (req: express.Request, res: express.Response) {
+      let name = req.params.username
+      const connection = dbFactory(conn)
+      await connection.accounts.findAccount(name)
       res.status(200)
       res.send()
     },
-    async deleteAccount (req: express.Request, res: express.Response) {
-      const result = await db.accounts.deleteAccount(req.body.username, req.body.password)
+    async updateAccount (req: express.Request, res: express.Response) {
+      let name = req.body.username
+      let password = req.body.password
+      const connection = dbFactory(conn)
+      await connection.accounts.updateAccount(name, password)
       res.status(201)
       res.send()
     },

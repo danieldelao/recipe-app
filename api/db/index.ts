@@ -1,12 +1,10 @@
-import { Pool } from 'pg'
-import accounts, { AccountController } from './accounts'
 
-export interface Controller {
-    accounts: AccountController
-}
+import {PoolClient} from 'pg'
+import accounts from './accounts'
 
-export default function (pool: Pool) {
-    return {
-        accounts: accounts(pool)
-    }
+export default function (conn: PoolClient) {
+  return {
+    accounts: accounts(conn)
+  }
+
 }
