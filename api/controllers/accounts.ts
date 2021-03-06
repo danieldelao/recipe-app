@@ -1,6 +1,5 @@
 import { PoolClient } from 'pg'
 import express from 'express'
-import { PoolClient } from 'pg'
 import dbFactory from '../db'
 
 export default function (conn: PoolClient) {
