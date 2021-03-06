@@ -6,35 +6,6 @@ info:
 
 paths:
   /accounts:
-    get:
-      tags:
-       - Accounts
-      x-controller: accounts
-      x-operation: readAccount
-      summary: searches accounts
-      security:
-        - Bearer: []
-      description: |
-        By passing in the appropriate options, you can search for
-        a user in the system
-      parameters:
-        - in: query
-          name: searchString
-          description: pass an optional search string for looking up user
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/accounts'
-        '400':
-          description: bad input parameter
     post:
       tags:
        - Accounts
@@ -51,16 +22,59 @@ paths:
               $ref: '#/components/schemas/accounts'
         description: Account to add
       responses:
-        '201':
+        201:
           description: account created
           headers:
             Location:
               schema:
                 type: string
-        '400':
+        400:
           description: 'invalid input, object invalid'
-        '409':
+        409:
           description: an existing account already exists
+  /accounts/{username}:
+    parameters:
+      - $ref: '#/components/parameters/PathUsername'
+    get:
+      tags:
+       - Accounts
+      x-controller: accounts
+      x-operation: findAccount
+      summary: searches accounts
+      security:
+        - Bearer: []
+      description: |
+        By passing in the appropriate options, you can search for
+        a user in the system
+      responses:
+        200:
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/accounts'
+        400:
+          description: bad input parameter
+    delete:
+      tags:
+       - Accounts
+      security:
+        - Bearer: []
+      x-controller: accounts
+      x-operation: deleteAccount
+      summary: deletes an account
+      description: deletes an account in the system
+      responses:
+        204:
+         description: Deleted
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
     put:
       tags:
        - Accounts
@@ -77,35 +91,16 @@ paths:
               $ref: '#/components/schemas/accounts'
         description: Account to edit
       responses:
-        '201':
+        200:
           description: account edited
-          headers:
-            Location:
-              schema:
-                type: string
-        '400':
-          description: 'invalid input, object invalid'
-  /accounts/{username}:
-    parameters:
-      - $ref: '#/components/parameters/PathUsername'
-    delete:
-      tags:
-       - Accounts
-      security:
-        - Bearer: []
-      x-controller: accounts
-      x-operation: deleteAccount
-      summary: deletes an account
-      description: deletes an account in the system
-      responses:
-        '204':
-          description: account deleted
-          headers:
-            Location:
-              schema:
-                type: string
-        '400':
-          description: 'invalid input, object invalid'
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
           
   /recipelist:
     get:
@@ -117,13 +112,13 @@ paths:
       x-controller: recipesList
       x-operation: getRecipelist
       responses:
-        '200':
+        200:
           description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/recipeList'
-        '400':
+        400:
           description: bad input parameter
       
   /recipe/{recipeId}:
@@ -142,15 +137,15 @@ paths:
             schema:
               $ref: '#/components/schemas/recipe'
       responses:
-        '204':
+        204:
           description: recipe added
           headers:
             Location:
               schema:
                 type: string
-        '400':
+        400:
           description: 'invalid input, object invalid'
-        '409':
+        409:
           description: an existing recipe already exists
     get:
       summary: get specific recipe info

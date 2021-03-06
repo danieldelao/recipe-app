@@ -27,7 +27,7 @@ export default  function (conn: PoolClient) {
         },
         async findAccount (name: string ) {
             return conn.query({
-                text: 'SELECT * FROM accounts WHERE username = $1',
+                text: 'SELECT password FROM accounts WHERE username = $1',
                 values: [
                     name
                 ]

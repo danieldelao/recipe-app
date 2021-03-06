@@ -15,8 +15,6 @@ export default function (conn: PoolClient) {
 
     async deleteAccount (req: express.Request, res: express.Response) {
       let name = req.enforcer.params.username
-      //req.enforcer.params.query
-      console.log(name)
       const connection = dbFactory(conn)
       await connection.accounts.deleteAccount(name)
       res.status(201)
@@ -24,22 +22,18 @@ export default function (conn: PoolClient) {
     },
 
     async findAccount (req: express.Request, res: express.Response) {
-      let name = req.params.username
+      let name = req.enforcer.params.username
       const connection = dbFactory(conn)
       await connection.accounts.findAccount(name)
       res.status(200)
       res.send()
     },
     async updateAccount (req: express.Request, res: express.Response) {
-      let name = req.body.username
+      let name = req.enforcer.params.username
       let password = req.body.password
       const connection = dbFactory(conn)
       await connection.accounts.updateAccount(name, password)
-      res.status(201)
-      res.send()
-    },
-    async readAccount (req: express.Request, res: express.Response) {
-      res.status(200)
+      res.status(204)
       res.send()
     }
   }

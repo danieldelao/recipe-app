@@ -19,16 +19,16 @@ const pool = new Pool({
 })
 
 
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error(err)
-    process.exit(1)
-  } else {
-    console.log('Successfully connected to the database')
-  }
-  console.log(err, res)
-  // pool.end()
-})
+// pool.query('SELECT NOW()', (err, res) => {
+//   if (err) {
+//     console.error(err)
+//     process.exit(1)
+//   } else {
+//     console.log('Successfully connected to the database')
+//   }
+//   console.log(err, res)
+//   pool.end()
+// })
 
 
 // Create express instance
