@@ -1,3 +1,4 @@
+import { PoolClient } from 'pg'
 import express from 'express'
 import { PoolClient } from 'pg'
 import dbFactory from '../db'
@@ -36,6 +37,10 @@ export default function (conn: PoolClient) {
       const connection = dbFactory(conn)
       await connection.accounts.updateAccount(name, password)
       res.status(201)
+      res.send()
+    },
+    async readAccount (req: express.Request, res: express.Response) {
+      res.status(200)
       res.send()
     }
   }

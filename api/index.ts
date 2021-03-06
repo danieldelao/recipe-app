@@ -4,12 +4,13 @@ import Enforcer from 'openapi-enforcer'
 import EnforcerMiddleware from 'openapi-enforcer-middleware'
 import express from 'express'
 import path from 'path'
-import {Pool, Client} from 'pg'
+
+import { Pool, Client } from 'pg'
 
 dotenv.config()
 
+const pool = new Pool({
 
-const pool = new Pool ({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
@@ -17,12 +18,30 @@ const pool = new Pool ({
   port: +process.env.DB_PORT,
 })
 
+
+pool.query('SELECT NOW()', (err, res) => {
+  if (err) {
+    console.error(err)
+    process.exit(1)
+  } else {
+    console.log('Successfully connected to the database')
+  }
+  console.log(err, res)
+  // pool.end()
+})
+
+
 // Create express instance
 const app = express()
 
 // Create a simple logging middleware
 app.use(async (req, res, next) => {
   console.log(req.method.toUpperCase() + ' ' + req.path)
+  
+  // const conn = await pool.connect()
+  // req.db = dbfactory(conn)
+  // req.body.accounts.createAccount('')
+
   next()
 
   
@@ -44,7 +63,9 @@ enforcerMiddleware.on('error', (err: Error) => {
 }) 
 
 const controllersPath = path.resolve(__dirname, 'controllers')
+
 app.use(enforcerMiddleware.route(controllersPath, [pool]))
+
 
 // Export express app
 module.exports = app

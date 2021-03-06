@@ -1,3 +1,4 @@
+
 CREATE TABLE "accounts" (
   "id" character(37) NOT NULL,
   "username" character varying(40) NOT NULL,
@@ -7,4 +8,4 @@ CREATE TABLE "accounts" (
 CREATE INDEX "accounts_username" ON "accounts" ("username");
 
 -- Replicate database into a test database
-CREATE DATABASE test WITH TEMPLATE <YOUR_DATABASE_NAME>;
+CREATE DATABASE test WITH TEMPLATE recipeapp;
