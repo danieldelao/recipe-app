@@ -24,8 +24,10 @@ pool.query('SELECT NOW()', (err, res) => {
     console.log('Successfully connected to the database')
   }
   console.log(err, res)
-  pool.end()
+  // pool.end()
 })
+
+const db = dbfactory( pool )
 
 // Create express instance
 const app = express()
@@ -57,7 +59,7 @@ enforcerMiddleware.on('error', (err: Error) => {
 }) 
 
 const controllersPath = path.resolve(__dirname, 'controllers')
-app.use(enforcerMiddleware.route(controllersPath, [ pool ]))
+app.use(enforcerMiddleware.route(controllersPath, [ db ]))
 
 // Export express app
 module.exports = app

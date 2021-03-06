@@ -1,7 +1,7 @@
 -- accounts
 
 CREATE TABLE "accounts" (
-    "id" character(32) NOT NULL, 
+    "id" character(80) NOT NULL, 
     "username" character varying(40) NOT NULL,
     "password" character varying(80) NOT NULL,
     PRIMARY KEY ("id")

@@ -1,12 +1,18 @@
 import bcrypt from 'bcrypt'
-import { PoolClient } from 'pg'
+import { Pool, QueryResult } from 'pg'
 import { v4 as uuidv4 } from 'uuid'
 
-export default function (conn: PoolClient) {
+export interface AccountController {
+    createAccount(username: string, password: string): Promise<QueryResult>
+    updateAccount(username: string, password: string): Promise<QueryResult>
+    deleteAccount(username: string, password: string): Promise<QueryResult>
+}
+
+export default function (pool: Pool): AccountController {
     return{
         async createAccount (username: string, password: string) {
-            conn.query({
-                text:'INSERT INTO accounts (username, password) VALUES ($1, $2, $3)',
+            return pool.query({
+                text:'INSERT INTO accounts (id, username, password) VALUES ($1, $2, $3)',
                 values: [
                     uuidv4(), 
                     username, 
@@ -15,27 +21,27 @@ export default function (conn: PoolClient) {
             })
         },
         async updateAccount (username: string, password: string) {
-            conn.query({
-                text:'UPDATE accounts (username, password) VALUES ($1, $2, $3)',
-                values: [
-                    uuidv4(), 
-                    username, 
-                    await bcrypt.hash(password, 10)
-                ]
-            })
+            // return pool.query({
+            //     text:'UPDATE accounts (id, username, password) VALUES ($1, $2, $3)',
+            //     values: [
+            //         uuidv4(), 
+            //         username, 
+            //         await bcrypt.hash(password, 10)
+            //     ]
+            // })
         },
         async deleteAccount (username: string, password: string) {
-            conn.query({
-                text:'DROP USER IF EXISTS accounts (username) VALUES ($1)',
-                values: [
-                    username
-                ]
-            })
+            // return pool.query({
+            //     text:'DROP USER IF EXISTS accounts (username) VALUES ($1)',
+            //     values: [
+            //         username
+            //     ]
+            // })
         },
-        async readAccount (username: string, password: string) {
-            conn.query({
-                text:'SELECT CURRENT_USER'
-            })
-        }
+        // async readAccount (username: string, password: string) {
+        //     conn.query({
+        //         text:'SELECT CURRENT_USER'
+        //     })
+        // }
     }
 }
