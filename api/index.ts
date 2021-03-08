@@ -4,13 +4,16 @@ import Enforcer from 'openapi-enforcer'
 import EnforcerMiddleware from 'openapi-enforcer-middleware'
 import express from 'express'
 import path from 'path'
+import cookieParser from 'cookie-parser'
+import LocalStrategy from 'passport-local'
+import passport from 'passport'
+import session from 'express-session'
 
 import { Pool, Client } from 'pg'
 
 dotenv.config()
 
 const pool = new Pool({
-
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
@@ -30,9 +33,77 @@ const pool = new Pool({
 //   pool.end()
 // })
 
-
 // Create express instance
 const app = express()
+
+const user = [
+  // This user is added to the array to avoid creating a new user on each restart
+  {
+      username: 'Claire',
+      // This is the SHA256 hash for value of `password`
+      password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg='
+  }
+];
+
+// tell passport to use a local strategy and tell it how to validate a username and password
+passport.use(new LocalStrategy(function(username: string, password: string, done: boolean) {
+  if (username && password === 'pass') return done(null, { username: username });
+  return done(null, false);
+}));
+
+// tell passport how to turn a user into serialized data that will be stored with the session
+passport.serializeUser(function(user, done) {
+  done(null, user.username);
+});
+
+// tell passport how to go from the serialized data back to the user
+passport.deserializeUser(function(id, done) {
+  done(null, { username: id });
+});
+
+// tell the express app what middleware to use
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(session({ secret: 'secret key', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/', function (req, res) {
+  res.render('home');
+});
+
+// home page
+app.get('/', function (req, res) {
+  if (req.user) return res.send('Hello, ' + req.user.username);
+  res.send('Hello, Stranger!');
+});
+
+// specify a URL that only authenticated users can hit
+app.get('/protected',
+  function(req, res) {
+      if (!req.user) return res.sendStatus(401);
+      res.send('You have access.');
+  }
+);
+
+// specify the login url
+app.put('/auth/login',
+  passport.authenticate('local'),
+  function(req, res) {
+      res.send('You are authenticated, ' + req.user.username);
+  });
+
+// log the user out
+app.put('/auth/logout', function(req, res) {
+  req.logout();
+  res.send('You have logged out.');
+});
+
+// start the server listening
+app.listen(3000, function () {
+  console.log('Server listening on port 3000.');
+});
+
 
 // Create a simple logging middleware
 app.use(async (req, res, next) => {
@@ -70,6 +141,8 @@ app.use(enforcerMiddleware.route(controllersPath, [pool]))
 // Export express app
 module.exports = app
 
+
+// Why is this last? Is this letting the server listen to the API on the specific port?
 // Start standalone server if directly running
 if (require.main === module) {
   const port = process.env.PORT || 3001
