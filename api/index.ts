@@ -4,10 +4,8 @@ import Enforcer from 'openapi-enforcer'
 import EnforcerMiddleware from 'openapi-enforcer-middleware'
 import express from 'express'
 import path from 'path'
-import cookieParser from 'cookie-parser'
-import LocalStrategy from 'passport-local'
-import passport from 'passport'
-import session from 'express-session'
+import jwt, { decode } from 'jsonwebtoken'
+
 
 import { Pool, Client } from 'pg'
 
@@ -20,7 +18,6 @@ const pool = new Pool({
   password: process.env.DB_PASS,
   port: +process.env.DB_PORT,
 })
-
 
 // pool.query('SELECT NOW()', (err, res) => {
 //   if (err) {
@@ -36,75 +33,6 @@ const pool = new Pool({
 // Create express instance
 const app = express()
 
-const user = [
-  // This user is added to the array to avoid creating a new user on each restart
-  {
-      username: 'Claire',
-      // This is the SHA256 hash for value of `password`
-      password: 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg='
-  }
-];
-
-// tell passport to use a local strategy and tell it how to validate a username and password
-passport.use(new LocalStrategy(function(username: string, password: string, done: boolean) {
-  if (username && password === 'pass') return done(null, { username: username });
-  return done(null, false);
-}));
-
-// tell passport how to turn a user into serialized data that will be stored with the session
-passport.serializeUser(function(user, done) {
-  done(null, user.username);
-});
-
-// tell passport how to go from the serialized data back to the user
-passport.deserializeUser(function(id, done) {
-  done(null, { username: id });
-});
-
-// tell the express app what middleware to use
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(session({ secret: 'secret key', resave: false, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.get('/', function (req, res) {
-  res.render('home');
-});
-
-// home page
-app.get('/', function (req, res) {
-  if (req.user) return res.send('Hello, ' + req.user.username);
-  res.send('Hello, Stranger!');
-});
-
-// specify a URL that only authenticated users can hit
-app.get('/protected',
-  function(req, res) {
-      if (!req.user) return res.sendStatus(401);
-      res.send('You have access.');
-  }
-);
-
-// specify the login url
-app.put('/auth/login',
-  passport.authenticate('local'),
-  function(req, res) {
-      res.send('You are authenticated, ' + req.user.username);
-  });
-
-// log the user out
-app.put('/auth/logout', function(req, res) {
-  req.logout();
-  res.send('You have logged out.');
-});
-
-// start the server listening
-app.listen(3000, function () {
-  console.log('Server listening on port 3000.');
-});
-
-
 // Create a simple logging middleware
 app.use(async (req, res, next) => {
   console.log(req.method.toUpperCase() + ' ' + req.path)
@@ -118,14 +46,74 @@ app.use(async (req, res, next) => {
   
 })
 
+const secret = "alkjdhfaksjdhflskjdbflkajsdbflaskjbdflaskjbd"
+
 // Add Body Parser
 app.use(express.json())
+
+app.post('/login', async (req, res) => {
+  if (!req.headers.authorization) {
+    return res.json({ error: 'No credentials sent!' });
+  } else {
+    const auth = req.headers.authorization
+    // Get auth 
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+    const [username, password] = Buffer.from(b64auth, 'base64').toString().split(':')
+
+    console.log(username, password)
+    
+    pool.query('SELECT * FROM "accounts" WHERE username = '+ "'"+ username+"'" +'AND password = '+ "'"+ password+"'" , (err, r) => {
+      if (err) {
+        console.error(err)
+        process.exit(1)
+      } else {
+        if(r.rowCount == 1) {
+          const newToken = jwt.sign({user: username}, secret)
+          return res.send(newToken)
+        }
+        return res.status(400).send({
+          message: 'Wrong Credentials'
+        });
+      }
+    })
+  }
+  
+});
 
 // Any paths defined in your openapi.yml will validate and parse the request
 // before it calls your route code.
 const openapiPath = path.resolve(__dirname, 'openapi.yml')
 const enforcerMiddleware = EnforcerMiddleware(Enforcer(openapiPath))
 app.use(enforcerMiddleware.init())
+
+// Verify JWT
+app.use(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (req.headers.authorization) {
+    const [type, token] = req.headers.authorization.split(/ +/)
+    if (type.toLowerCase() === 'bearer') {
+      try{
+        const decoded:any = await jwt.verify(token, secret)
+        req.user = {
+          username: decoded.password
+        }
+        
+      } catch (err) {
+        return next('bad request')
+      }
+    }
+  }
+  next()
+})
+
+//Check if we need auth 
+app.use((req, res, next) => {
+  if (req.enforcer && req.enforcer.operation && req.enforcer.operation.security && !req.user) {
+    res.sendStatus(401)
+  }else{
+    next()
+  }
+})
+
 
 // Catch errors
 enforcerMiddleware.on('error', (err: Error) => {
