@@ -1,63 +1,29 @@
 <template>
-  <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+  <v-app color="deep-orange lighten-5">
+      
     <v-app-bar
       :clipped-left="clipped"
       fixed
       app
+      color="deep-orange darken-1"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
+    <a href="/">
+      <img src="../media/logo.png" height="30px" width="40px" padding="10px">
+      <v-toolbar-title class="nav-text inline" v-text="title" />
+    </a>
+    <v-spacer></v-spacer>
+    <v-btn to="/recipes/addRecipe" class="nav-text" text>Add Recipe</v-btn>
       <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
-    </v-app-bar>
-    <v-main>
+    
+      <!-- <v-btn text>Menu</v-btn> -->
+      <v-spacer></v-spacer>
+      <!-- <v-btn icon color="#ffffff">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn> -->
+      <v-btn to="/login" class="nav-text" text>SIGN IN</v-btn>
+      <v-btn to="/sign-up" color="deep-orange accent-4" class="nav-text">JOIN</v-btn>
+      </v-app-bar>
+    <v-main class="main-background-color">
       <v-container>
         <nuxt />
       </v-container>
@@ -68,7 +34,7 @@
       temporary
       fixed
     >
-      <v-list>
+      <!-- <v-list>
         <v-list-item @click.native="right = !right">
           <v-list-item-action>
             <v-icon light>
@@ -77,7 +43,7 @@
           </v-list-item-action>
           <v-list-item-title>Switch drawer (click me)</v-list-item-title>
         </v-list-item>
-      </v-list>
+      </v-list> -->
     </v-navigation-drawer>
     <v-footer
       :absolute="!fixed"
@@ -110,8 +76,35 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'BusyChef'
     }
   }
 }
 </script>
+
+<style scoped>
+  .main-background-color{
+    background-color: #fbe9e7
+  }
+  .nav-text{
+    color: #ffffff
+  }
+  .inline{
+    display: inline-block
+  }
+  a:link {
+  text-decoration: none;
+  }
+
+  a:visited {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  a:active {
+    text-decoration: none;
+  }
+</style>
