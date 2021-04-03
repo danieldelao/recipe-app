@@ -11,13 +11,13 @@
         >
 
         <v-text-field
-        v-model="email"
-        label="Name"
+        v-model="form.name"
+        label="Recipe name"
         required
         ></v-text-field>
         
         Estimated Preparation Time
-        <select v-model="selected">
+        <!-- <select v-model="form.prepTime">
             <option disabled value="">Time</option>
             <option>5 Min</option>
             <option>10 Min</option>
@@ -27,16 +27,54 @@
             <option>1 Hr</option>
             <option>1 Hr 5 Min</option>
             <option>1 Hr 10 Min</option>
-        </select>
+        </select> -->
         <!-- <span>{{ selected }}</span> -->
+        <v-text-field
+        v-model="form.ingredients"
+        label="Ingredients"
+        required
+        ></v-text-field>
 
         <v-btn
-        :disabled="!valid"
+        >
+        Add
+        </v-btn> 
+
+        <v-btn
+        >
+        Add Additional ingredient
+        </v-btn> 
+
+        Steps
+
+        <v-text-field
+        v-model="form.steps"
+        label="Step 1"
+        required
+        ></v-text-field>
+
+        <v-btn
+        >
+        Add
+        </v-btn>
+
+        <v-btn
+        >
+        Add Additional step
+        </v-btn> 
+
+        Add image
+        <v-btn
+        >
+        Upload from Computer
+        </v-btn>
+
+        <v-btn
         color="success"
         class="mr-4"
-        @click="validate"
+        @click="createRecipe()"
         >
-        Add Recipe
+        Submit Recipe
         </v-btn>
 
   </v-form>
@@ -50,8 +88,23 @@ export default {
     name: 'App',
     components: {
         AppNavigation
+    },
+    methods: {
+    createTasklist () {
+      this.$store.dispatch('recipes/add', this.form.name)
     }
-};
+    },
+    data () {
+        return {
+            form: {
+                name: "",
+                // prepTime,
+                ingredients: [],
+                steps: []
+            },
+        }
+    }
+}
 </script>
 
 <style scoped>
