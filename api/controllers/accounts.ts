@@ -24,9 +24,9 @@ export default function (conn: PoolClient) {
     async findAccount (req: express.Request, res: express.Response) {
       let name = req.enforcer.params.username
       const connection = dbFactory(conn)
-      await connection.accounts.findAccount(name)
+      const results = await connection.accounts.findAccount(name)
       res.status(200)
-      res.send()
+      res.send(results.rows[0])
     },
     async updateAccount (req: express.Request, res: express.Response) {
       let name = req.enforcer.params.username
