@@ -5,6 +5,29 @@ info:
   title: Recipe App API
 
 paths:
+  # /login:
+  #   post:
+  #     tags:
+  #      - Login
+  #     x-controller: login
+  #     x-operation: tryLogin
+  #     summary: login the user
+  #     security:
+  #       - basicAuth: []
+  #     description: try to login a user
+  #     responses:
+  #       201:
+  #         description: login successful
+  #         headers:
+  #           Location:
+  #             schema:
+  #               type: string
+  #       400:
+  #         description: 'invalid input, object invalid'
+  #       401:
+  #       description: 'login unsuccesful'
+  #       409:
+  #         description: an existing account already exists
   /accounts:
     post:
       tags:
