@@ -1,89 +1,157 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+    <v-container fluid>
+        <v-layout justify-center column pa-12>
+            <v-row no-gutters>
+                <v-col>
+                    <div class="display-4 font-weight-black text-xs-center">HEALTHY MEALS</div>
+                    <div class="display-4 font-weight-black text-xs-center mb-3">FOR YOUR TABLE</div>
+                    <div class="display-1 font-weight-bold text-xs-center">Finally be a foodie at home with easy, delicious recipes sorted by season.</div>
+                    <v-icon large>expand_more</v-icon>
+                    <v-btn fab class="mt-5 brown darken-4"></v-btn>
+                </v-col>
+                <v-col>
+                    <img src="../media/pancake-blankets.gif">
+                </v-col>
+            </v-row>
+            <v-row pa-12>
+
+            <v-container fluid>
+              <v-row dense>
+                <v-col
+                  v-for="card in cards"
+                  :key="card.title"
+                  :cols="card.flex"
+                >
+                <recipe-card @bookmark='console.log($event)' title="strawberry icecream"></recipe-card>
+                  <!-- <v-card>
+                    <v-img
+                      :src="card.src"
+                      class="white--text align-end"
+                      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                      height="200px"
+                    >
+                <v-card-title v-text="card.title"></v-card-title>
+              </v-img> -->
+              <!-- <v-card-text v-text="card.user"></v-card-text> -->
+              <!-- <v-card-text v-text="card.time"></v-card-text> -->
+  
+              <!-- <v-card-actions>
+                <v-spacer></v-spacer>
+  
+                <v-btn icon>
+                  <v-icon>mdi-heart</v-icon>
+                </v-btn>
+  
+                <v-btn icon>
+                  <v-icon>mdi-bookmark</v-icon>
+                </v-btn>
+  
+                <v-btn icon>
+                  <v-icon>mdi-share-variant</v-icon>
+                </v-btn>
+              </v-card-actions> -->
+            <!-- </v-card> -->
+          </v-col>
+        </v-row>
+      </v-container>
+              <v-card
+    :loading="loading"
+    class="mx-auto my-12"
+    max-width="374"
+  >
+    <template slot="progress">
+      <v-progress-linear
+        color="deep-purple"
+        height="10"
+        indeterminate
+      ></v-progress-linear>
+    </template>
+
+    <v-img
+      height="250"
+      src="../media/pesto-pasta.jpg"
+    ></v-img>
+    <v-btn icon>
+          <v-icon>mdi-bookmark</v-icon>
+      </v-btn>
+
+    <v-card-title>Pesto Pasta</v-card-title>
+
+    <v-card-text>
+      <v-row
+        align="center"
+        class="mx-0"
+      >
+        <v-rating
+          :value="4.5"
+          color="amber"
+          dense
+          half-increments
+          readonly
+          size="14"
+        ></v-rating>
+
+        <div class="grey--text ml-4">
+          <v-card-text>30 min</v-card-text>
+          4.5 (413)
+        </div>
+      </v-row>
+    </v-card-text>
+
+    <v-divider class="mx-4"></v-divider>
+
+    <v-card-text>Claire Manwaring</v-card-text>
+
+    <v-card-text>
+      <v-chip-group
+        v-model="selection"
+        active-class="deep-purple accent-4 white--text"
+        column
+      >
+        <v-chip>Spring</v-chip>
+        <v-chip>Summer</v-chip>
+        <v-chip>Fall</v-chip>
+        <v-chip>Winter</v-chip>
+      </v-chip-group>
+    </v-card-text>
+    <v-card-actions>
+      
+    </v-card-actions>
+  </v-card>
+            </v-row>
+        </v-layout>
+    </v-container>
+    
+    
+  
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import recipeCard from "../components/recipeCard.vue";
 
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
-  }
-}
+    name: 'app',
+    components: {
+      recipeCard
+    },
+    data: () => ({
+    alignments: [
+      'start',
+      'center',
+      'end',
+    ],
+    cards: [
+      { title: 'Pesto-Pasta', user: 'Claire', season: ['Summer'], time: '30 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 4 },
+      { title: 'Lemon Icecream', user: 'Claire', season: ['Summer'], time: '40 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 4 },
+      { title: 'Baked Oatmeal', user: 'Claire', season: ['Spring, Summer, Fall, Winter'], time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
+      { title: 'Vegetable Gallete', user: 'Claire', season: ['Spring, Summer, Fall, Winter'], time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
+      { title: 'Sweet Potatoe Gnocchi', user: 'Claire', season: ['Spring, Summer, Fall, Winter'], time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
+      { title: 'Sweet Coconut Rice', user: 'Claire', season: ['Spring, Summer, Fall, Winter'], time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
+    ],
+  }),
+};
 </script>
+
+<style scoped>
+
+</style>

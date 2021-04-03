@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app color="deep-orange lighten-5">
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -28,6 +28,7 @@
       :clipped-left="clipped"
       fixed
       app
+      color="deep-orange darken-1"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn
@@ -57,7 +58,7 @@
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-main>
+    <v-main class="main-background-color">
       <v-container>
         <nuxt />
       </v-container>
@@ -115,3 +116,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .main-background-color{
+    background-color: #fbe9e7
+  }
+</style>
