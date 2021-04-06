@@ -12,6 +12,8 @@
       <v-toolbar-title class="nav-text inline" v-text="title" />
     </a>
     <v-spacer></v-spacer>
+    <v-btn to="/recipes/discover" class="nav-text" text>Discover</v-btn>
+    <v-btn to="/recipes/myRecipes" class="nav-text" text>My Recipes</v-btn>
     <v-btn to="/recipes/addRecipe" class="nav-text" text>Add Recipe</v-btn>
       <v-spacer />
     
