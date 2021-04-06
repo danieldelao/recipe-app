@@ -8,22 +8,28 @@
                     >
                 <v-card-title v-text="title"></v-card-title>
               </v-img>
+              Added by: 
               <v-card-text v-text="user"></v-card-text>
               <v-card-text v-text="time"></v-card-text>
   
               <v-card-actions>
                 <v-spacer></v-spacer>
   
-                <v-btn icon>
+                <!-- <v-btn icon>
                   <v-icon>mdi-heart</v-icon>
-                </v-btn>
+                </v-btn> -->
   
-                <v-btn icon @click='$emit("bookmark", recipeID)'>
+                <!-- <v-btn icon @click='$emit("bookmark", recipeID)'>
                   <v-icon>mdi-bookmark</v-icon>
-                </v-btn>
+                </v-btn> -->
   
-                <v-btn icon>
+                <!-- <v-btn icon>
                   <v-icon>mdi-share-variant</v-icon>
+                </v-btn> -->
+
+                <!-- TODO add logic so that the pencil only shows up if it's the user's recipe -->
+                <v-btn icon>
+                  <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </v-card-actions>
             </v-card>
