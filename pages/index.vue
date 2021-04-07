@@ -3,11 +3,11 @@
         <v-layout justify-center column pa-12>
             <v-row no-gutters>
                 <v-col>
-                    <div class="display-4 font-weight-black text-xs-center">HEALTHY MEALS</div>
-                    <div class="display-4 font-weight-black text-xs-center mb-3">FOR YOUR TABLE</div>
-                    <div class="display-1 font-weight-bold text-xs-center">Finally be a foodie at home with easy, delicious recipes sorted by season.</div>
-                    <v-icon large>expand_more</v-icon>
-                    <v-btn fab class="mt-5 brown darken-4"></v-btn>
+                    <div class="display-4 font-weight-black text-xs-center">LET'S GET COOKING.</div>
+                    <div class="display-4 font-weight-black text-xs-center mb-3"></div>
+                    <div class="display-1 font-weight-bold text-xs-center">Organize your recipes and find ones with BusyChef!</div>
+                    <!-- <v-icon large>expand_more</v-icon>
+                    <v-btn fab class="mt-5 brown darken-4"></v-btn> -->
                 </v-col>
                 <v-col>
                     <img src="../media/pancake-blankets.gif">
@@ -54,7 +54,7 @@
           </v-col>
         </v-row>
       </v-container>
-              <v-card
+              <!-- <v-card
     :loading="loading"
     class="mx-auto my-12"
     max-width="374"
@@ -117,7 +117,7 @@
     <v-card-actions>
       
     </v-card-actions>
-  </v-card>
+  </v-card> -->
             </v-row>
         </v-layout>
     </v-container>

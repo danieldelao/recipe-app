@@ -6,30 +6,29 @@
 
         <v-form
         ref="form"
-        v-model="valid"
         lazy-validation
+        :model="loginForm"
+        :rules="loginRules"
         >
 
         <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="E-mail"
+        v-model="loginForm.username"
+        label="Username"
         required
+        prop="username"
         ></v-text-field>
 
         <v-text-field
-        v-model="name"
-        :counter="10"
-        :rules="nameRules"
+        v-model="loginForm.password"
         label="Password"
         required
+        prop="password"
         ></v-text-field>
 
         <v-btn
-        :disabled="!valid"
         color="success"
         class="mr-4"
-        @click="validate"
+        @click="login()"
         >
         Log In
         </v-btn>
@@ -41,15 +40,40 @@
     </v-app>
 </template>
 
-<script>
-import AppNavigation from '@/components/AppNavigation';
+<script lang="js">
+// import AppNavigation from '@/components/AppNavigation';
 
 export default {
     name: 'App',
     components: {
-        AppNavigation
+        // AppNavigation
+    },
+    data () {
+        return {
+            loginForm: {
+                username: '',
+                password: ''
+            },
+            loginRules: {
+                username: [
+                { required: true, message: 'Field required', trigger: 'blur' }
+                ],
+                password: [
+                { required: true, message: 'Field required', trigger: 'blur' }
+                ]
+            }
+        }
+    },
+    methods: {
+        login () {
+            // @ts-ignore
+            const { username, password } = this.loginForm
+            this.$store.dispatch('accounts/authenticate', { username, password }).then(() => {
+                this.$router.push('/')
+            })
+        }
     }
-};
+}
 </script>
 
 <style scoped>

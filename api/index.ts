@@ -16,7 +16,7 @@ const pool = new Pool({
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   password: process.env.DB_PASS,
-  port: +process.env.DB_PORT,
+  port: +process.env.DB_PORT!,
 })
 
 // pool.query('SELECT NOW()', (err, res) => {
@@ -53,6 +53,7 @@ app.use(express.json())
 
 app.post('/login', async (req, res) => {
   if (!req.headers.authorization) {
+    console.log("headers", req.headers)
     return res.json({ error: 'No credentials sent!' });
   } else {
     const auth = req.headers.authorization
@@ -85,6 +86,18 @@ app.post('/login', async (req, res) => {
 const openapiPath = path.resolve(__dirname, 'openapi.yml')
 const enforcerMiddleware = EnforcerMiddleware(Enforcer(openapiPath))
 app.use(enforcerMiddleware.init())
+
+// Declare possible user property for express request object
+declare global {
+  namespace Express {
+      interface Request {
+          user?: {
+            // id: string
+            username: string
+          }
+      }
+  }
+}
 
 // Verify JWT
 app.use(async (req: express.Request, res: express.Response, next: express.NextFunction) => {

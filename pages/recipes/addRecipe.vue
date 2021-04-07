@@ -6,7 +6,6 @@
 
         <v-form
         ref="form"
-        v-model="valid"
         lazy-validation
         >
 
@@ -16,9 +15,9 @@
         required
         ></v-text-field>
         
-        Estimated Preparation Time
-        <!-- <select v-model="form.prepTime">
-            <option disabled value="">Time</option>
+        Estimated Preparation Time:
+        <v-select label="Select Time" outlined v-model="form.prepTime" :items="items">
+            <!-- <option disabled value="">Time</option>
             <option>5 Min</option>
             <option>10 Min</option>
             <option>15 Min</option>
@@ -26,24 +25,35 @@
             <option>45 Min</option>
             <option>1 Hr</option>
             <option>1 Hr 5 Min</option>
-            <option>1 Hr 10 Min</option>
-        </select> -->
+            <option>1 Hr 10 Min</option> -->
+        </v-select>
         <!-- <span>{{ selected }}</span> -->
+        <v-col
+          cols="12"
+          sm="6"
+          md="4"
+        >
         <v-text-field
         v-model="form.ingredients"
         label="Ingredients"
         required
+        filled
+        dense
         ></v-text-field>
+        </v-col>
 
-        <v-btn
-        >
-        Add
-        </v-btn> 
-
-        <v-btn
+        <v-btn @click="addIngredient"
         >
         Add Additional ingredient
         </v-btn> 
+
+        <div
+                v-for="(ingredient, counter) in form.ingredients"
+                v-bind:key="counter">
+            <span @click="deleteIngredient(counter)">x</span>
+            <label>Ingredient {{counter+1}}</label>
+            <input type="text" v-model="ingredient.previous" required> 
+        </div>
 
         Steps
 
@@ -90,21 +100,34 @@ export default {
         AppNavigation
     },
     methods: {
-    createTasklist () {
-      this.$store.dispatch('recipes/add', this.form.name)
-    }
+        createTasklist () {
+            this.$store.dispatch('recipes/add', this.form.name)
+        },
+        addIngredient(){
+            this.ingredients.push({
+                ingredient:''
+        })
+        },
+        deleteIngredient(counter){
+            this.ingredients.splice(counter,1);
+        }
     },
-    data () {
+    data () { 
         return {
+            items: ['5 min', '10 min', '15 min', '20 min', '25 min', '30 min', '35 min', '40 min', '45 min', '50 min', '55 min', '1 hr'],
             form: {
                 name: "",
-                // prepTime,
-                ingredients: [],
+                prepTime: "",
+                ingredients: [{
+                    ingredient: ''
+                }],
                 steps: []
             },
+            
         }
     }
 }
+
 </script>
 
 <style scoped>

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getCookie } from '~/assets/cookie'
 
 axios.interceptors.request.use(config => {
-  let data = getCookie('todo-account')
+  let data = getCookie('recipe-account')
   if (data) data = JSON.parse(decodeURIComponent(data))
   if (data) {
     const token = data.token
