@@ -13,11 +13,12 @@ export default  function (conn: PoolClient) {
                 ]
             })
         },
-        async getIngridients (recepeId: string ) {
+        async getIngridients (recepeId: string, id: string) {
             return conn.query({
-                text: 'SELECT * FROM ingridients WHERE id = $1',
+                text: 'SELECT * FROM ingridients WHERE recipe_id = $1 AND id = $id',
                 values: [
-                    recepeId
+                    recepeId,
+                    id
                 ]
 
             })
@@ -35,10 +36,11 @@ export default  function (conn: PoolClient) {
 
             })
         },
-        async deleteIngridients (recepeId: string) {
+        async deleteIngridients (recepeId: string, id: string) {
             return conn.query({
-                text: 'DELETE FROM ingridients WHERE id = $1',
+                text: 'DELETE FROM ingridients WHERE id = $1 AND recipe_id = $2',
                 values: [
+                    id,
                     recepeId
                 ]
 
@@ -46,7 +48,7 @@ export default  function (conn: PoolClient) {
         },
         async updateIngridients (recepeId: string, name: string, season:string, quantity:number, id:string) {
             return conn.query({
-                text: 'UPDATE ingridients  SET recipe_id = $1,name = $2, season = $3, season = $4, quantity = $4 where recipe_id = $5',
+                text: 'UPDATE ingridients  SET recipe_id = $1,name = $2, season = $3, season = $4, quantity = $4 where id = $5',
                 values: [
                     recepeId,
                     name,

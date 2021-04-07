@@ -15,8 +15,9 @@ export default function (conn: PoolClient) {
 
     async getIngridients (req: express.Request, res: express.Response) {
       let recipeId = req.enforcer.params.recipeId
+      let id = req.enforcer.params.IngridientId
       const connection = dbFactory(conn)
-      const result = await connection.ingridients.getIngridients(recipeId)
+      const result = await connection.ingridients.getIngridients(recipeId, id)
       res.status(200)
       res.send(result.rows[0])
     },
@@ -34,8 +35,9 @@ export default function (conn: PoolClient) {
 
     async deleteIngridients (req: express.Request, res: express.Response) {
       let recipeId = req.enforcer.params.recipeId
+      let id = req.enforcer.params.IngridientId
       const connection = dbFactory(conn)
-      await connection.ingridients.deleteIngridients(recipeId)
+      await connection.ingridients.deleteIngridients(recipeId, id)
       res.status(200)
       res.send("Success deleting")
     },
