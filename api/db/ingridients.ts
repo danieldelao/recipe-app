@@ -15,7 +15,7 @@ export default  function (conn: PoolClient) {
         },
         async getIngridients (recepeId: string, id: string) {
             return conn.query({
-                text: 'SELECT * FROM ingridients WHERE recipe_id = $1 AND id = $id',
+                text: 'SELECT * FROM ingridients WHERE recipe_id = $1 AND id = $2',
                 values: [
                     recepeId,
                     id
