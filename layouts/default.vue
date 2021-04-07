@@ -22,8 +22,9 @@
       <!-- <v-btn icon color="#ffffff">
         <v-icon>mdi-magnify</v-icon>
       </v-btn> -->
-      <v-btn to="/login" class="nav-text" text>SIGN IN</v-btn>
-      <v-btn to="/sign-up" color="deep-orange accent-4" class="nav-text">JOIN</v-btn>
+      <v-btn to="/login" class="nav-text" text v-if="!authenticated">SIGN IN</v-btn>
+      <v-btn to="/sign-up" color="deep-orange accent-4" v-if="!authenticated" class="nav-text">JOIN</v-btn>
+      <v-btn color="deep-orange accent-4" class="nav-text" v-if="authenticated" @click="logout()">Log Out</v-btn>
       </v-app-bar>
     <v-main class="main-background-color">
       <v-container>
@@ -58,6 +59,18 @@
 
 <script>
 export default {
+  computed: {
+    authenticated () {
+      return this.$store.state.accounts.token
+    }
+  },
+
+  methods: {
+    logout () {
+      this.$store.dispatch('accounts/logout')
+    }
+  },
+
   data () {
     return {
       clipped: false,

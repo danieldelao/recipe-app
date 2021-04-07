@@ -31,10 +31,10 @@ export const actions = {
     // const res = await axios.put('/api/authenticate', { username, password })
     console.log(username + password)
     // const res = await axios.post('http://localhost:3001/login', {
-    const res = await axios.post('api/login', {
-        headers: {
-            'Authorization': "Basic" + btoa( username + ":" + password),
-          },
+    // const res = await axios.post('api/login', {
+    //     headers: {
+    //         'Authorization': "Basic" + btoa( username + ":" + password),
+    //       },
         //   proxy: {
         //     host: 'localhost',
         //     port: 3001
@@ -44,11 +44,22 @@ export const actions = {
         //     username: username,
         //     password: password
         // }
-        }).then(function (response) {
-		    console.log('response is : ' + response.data);
-    })
+    //     }).then(function (response) {
+	// 	    console.log('response is : ' + response.data);
+    // })
+    const res = await axios({
+        method: 'POST',
+        url: 'api/login',
+        auth: {
+          username,
+          password
+        }
+      }).then(function (res) {
+          
+        console.log('response is : ' + res.data);
+        console.log('response status is : ', res.status)
 
-    console.log(res)
+        console.log('now response status is : ', res.status)
     if (res.status === 200) {
       commit('setAccount', {
         token: res.data,
@@ -72,6 +83,10 @@ export const actions = {
         [AUTHENTICATED]: false
       }
     }
+
+    })
+
+    
   },
 
   async create ({ commit, dispatch }, { username, password }) {

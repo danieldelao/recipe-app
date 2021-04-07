@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <v-layout justify-center column pa-12>
+        <v-layout justify-center column pa-12 >
             
             <v-row pa-12>
 

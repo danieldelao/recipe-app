@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card NuxtLink to="../recipes/readRecipe">
                     <v-img
                       :src="src"
                       class="white--text align-end"
@@ -50,6 +50,6 @@ export default {
   },
   props: [
     "title"
-  ]
+  ],
 };
 </script>
