@@ -19,7 +19,7 @@ export default  function (conn: PoolClient) {
 
             })
         },
-        async addRecipe (name: string, season:string, rating:number, preptime:string) {
+        async addRecipe (name: string, season:string, rating:number, preptime:string, ingridients: string) {
             return conn.query({
                 text: 'INSERT INTO recipes (id, name, season, rating) VALUES ($1, $2, $3, $4)',
                 values: [
@@ -27,7 +27,8 @@ export default  function (conn: PoolClient) {
                     name,
                     season,
                     rating,
-                    preptime
+                    preptime,
+                    ingridients
                 ]
 
             })
@@ -41,7 +42,7 @@ export default  function (conn: PoolClient) {
 
             })
         },
-        async updateRecipe (recepeId: string, name: string, season:string, rating:number, preptime: string) {
+        async updateRecipe (recepeId: string, name: string, season:string, rating:number, preptime: string, ingridients: string) {
             return conn.query({
                 text: 'UPDATE recipes  SET name = $2, season = $3, season = $4, rating = $4 where id = $1',
                 values: [
@@ -49,7 +50,8 @@ export default  function (conn: PoolClient) {
                     name,
                     season,
                     rating,
-                    preptime
+                    preptime,
+                    ingridients
                 ]
 
             })
