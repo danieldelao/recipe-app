@@ -125,15 +125,15 @@ paths:
         500:
           description: Internal Server Error
           
-  /recipelist:
+  /recipe:
     get:
       tags:
-        - Recipe List
+        - All
       summary: list all recipes from user
       security:
         - Bearer: []
-      x-controller: recipesList
-      x-operation: getRecipelist
+      x-controller: recipes
+      x-operation: getAll
       responses:
         200:
           description: Success
@@ -153,6 +153,8 @@ paths:
       summary: create a new recipe
       security:
         - Bearer: []
+      x-controller: recipes
+      x-operation: addRecipe
       requestBody:
         required: true
         content:
