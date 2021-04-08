@@ -15,7 +15,7 @@ CREATE TABLE "recipes" (
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "ingridients" (
+CREATE TABLE "ingredients" (
   "id" character(37) NOT NULL,
   "recipe_id" character varying(40) NOT NULL,
   "name" character varying(40) NOT NULL,

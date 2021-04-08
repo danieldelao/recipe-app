@@ -13,7 +13,7 @@ export default function (conn: PoolClient) {
       },
 
     async getRecipe (req: express.Request, res: express.Response) {
-      let recipeId = req.enforcer.params.recipeId
+      let recipeId = req.enforcer!.params.recipeId
       const connection = dbFactory(conn)
       await connection.recipes.getRecipe(recipeId)
       res.status(200)
@@ -31,14 +31,14 @@ export default function (conn: PoolClient) {
     },
 
     async deleteRecipe (req: express.Request, res: express.Response) {
-      let recipeId = req.enforcer.params.recipeId
+      let recipeId = req.enforcer!.params.recipeId
       const connection = dbFactory(conn)
       await connection.recipes.deleteRecipe(recipeId)
       res.status(200)
       res.send("Success deleting")
     },
     async updateRecipe (req: express.Request, res: express.Response) {
-      let recipeId = req.enforcer.params.recipeId
+      let recipeId = req.enforcer!.params.recipeId
       let name = req.body.name
       let season = req.body.season
       let rating = req.body.rating

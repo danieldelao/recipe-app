@@ -165,10 +165,6 @@ paths:
                 $ref: '#/components/schemas/recipeList'
         400:
           description: bad input parameter
-      
-  /recipe/{recipeId}:
-    parameters:
-       - $ref: '#/components/parameters/RecipeId'
     post: 
       tags:
        - Recipes
@@ -194,6 +190,11 @@ paths:
           description: 'invalid input, object invalid'
         409:
           description: an existing recipe already exists
+      
+  /recipe/{recipeId}:
+    parameters:
+       - $ref: '#/components/parameters/RecipeId'
+
     get:
       summary: get specific recipe info
       tags:

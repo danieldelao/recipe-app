@@ -193,8 +193,11 @@ export default {
         AppNavigation
     },
     methods: {
-        createTasklist () {
-            this.$store.dispatch('recipes/add', this.form.name)
+        createRecipe () {
+            const { season, name, preptime } = this.form
+            this.$store.dispatch('recipes/createRecipe', { season, name, preptime}).then(() => {
+              this.$router.push('/')
+            })
         },
         // addIngredient(){
         //     this.ingredients.push({
@@ -216,8 +219,9 @@ export default {
             phoneNumbers: [{ phone: "" }],
             items: ['5 min', '10 min', '15 min', '20 min', '25 min', '30 min', '35 min', '40 min', '45 min', '50 min', '55 min', '1 hr'],
             form: {
+                season: "winter",
                 name: "",
-                prepTime: "",
+                preptime: "",
                 ingredients: [{
                     ingredient: ""
                 }],

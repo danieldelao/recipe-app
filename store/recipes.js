@@ -1,3 +1,4 @@
+import ingridients from '~/api/db/ingridients'
 import axios from '~/assets/axios'
 
 export const CREATED = 'recipe.created'
@@ -29,43 +30,58 @@ export const mutations = {
 
 export const actions = {
 
-    // create and retrieve a task list
-    async add ({ commit }, name) {
-      let res = await axios.post('/recipe/', { name })
-      if (res.status === 201) {
-        res = await axios.get(res.headers.Location)
-        if (res.status === 200) {
-          commit('add', res.data)
-          return {
-            message: {
-              type: 'success',
-              title: 'Recipe Created',
-              message: 'The recipe "' + name + '" was created.'
-            },
-            [CREATED]: true,
-            [GET]: true
-          }
-        } else {
-          return {
-            message: {
-              type: 'success',
-              title: 'Recipe Created',
-              message: 'The recipe "' + name + '" was created.'
-            },
-            [CREATED]: true,
-            [GET]: false
-          }
+    // create and retrieve a recipe list
+    async createRecipe ({ commit, dispatch }, {name, preptime, season, rating}) {
+      let res = await axios({
+        method: 'POST',
+        url: 'api/recipe', 
+        data: {
+          name, 
+          preptime,
+          season: "winter", 
+          rating: 0
         }
-      } else {
-        return {
-          message: {
-            type: 'error',
-            title: 'Recipe Not Created',
-            message: 'Unable to create recipe "' + name + '".'
-          },
-          [CREATED]: false,
-          [GET]: false
+      }).then(function(res){
+        console.log("Response status", res.status)
+        if (res.status === 201) {
+        //   res = await axios.get(res.headers.Location)
+        //   if (res.status === 200) {
+        //     commit('add', res.data)
+        //     return {
+        //       message: {
+        //         type: 'success',
+        //         title: 'Recipe Created',
+        //         message: 'The recipe "' + name + '" was created.'
+        //       },
+        //       [CREATED]: true,
+        //       [GET]: true
+        //     }
+        //   } else {
+        //     return {
+        //       message: {
+        //         type: 'success',
+        //         title: 'Recipe Created',
+        //         message: 'The recipe "' + name + '" was created.'
+        //       },
+        //       [CREATED]: true,
+        //       [GET]: false
+        //     }
+        //   }
+        // } else {
+        //   return {
+        //     message: {
+        //       type: 'error',
+        //       title: 'Recipe Not Created',
+        //       message: 'Unable to create recipe "' + name + '".'
+        //     },
+        //     [CREATED]: false,
+        //     [GET]: false
+        //   }
         }
-      }
+      })
+    
     },
+    async editRecipe () {
+
+    }
   }
