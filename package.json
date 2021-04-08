@@ -16,6 +16,7 @@
     "core-js": "^3.8.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
     "nuxt": "^2.14.12",
     "openapi-enforcer": "^1.13.3",

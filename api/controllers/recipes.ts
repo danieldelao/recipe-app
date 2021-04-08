@@ -24,8 +24,10 @@ export default function (conn: PoolClient) {
       let name = req.body.name
       let season = req.body.season
       let rating = req.body.rating
+      let preptime = req.body.preptime
+      let ingridients = req.body.ingridients
       const connection = dbFactory(conn)
-      await connection.recipes.addRecipe(name, season, rating)
+      await connection.recipes.addRecipe(name, season, rating, preptime, ingridients)
       res.status(201)
       res.send('Success adding a recipe')
     },
@@ -42,8 +44,10 @@ export default function (conn: PoolClient) {
       let name = req.body.name
       let season = req.body.season
       let rating = req.body.rating
+      let preptime = req.body.preptime
+      let ingridients = req.body.ingridients
       const connection = dbFactory(conn)
-      await connection.recipes.updateRecipe(recipeId, name, season, rating)
+      await connection.recipes.updateRecipe(recipeId, name, season, rating, preptime, ingridients)
       res.status(204)
       res.send("Success updating")
     }

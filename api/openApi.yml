@@ -457,7 +457,7 @@ components:
           type: string
         rating:
           type: integer
-        description:
+        preptime:
           type: string
         season:
           type: string
