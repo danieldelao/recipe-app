@@ -86,7 +86,7 @@ app.post('/login', async (req, res) => {
 // before it calls your route code.
 const openapiPath = path.resolve(__dirname, 'openapi.yml')
 const enforcerMiddleware = EnforcerMiddleware(Enforcer(openapiPath))
-app.use(enforcerMiddleware.init())
+app.use(enforcerMiddleware.init({ baseUrl: '/api' }))
 
 // Declare possible user property for express request object
 declare global {
@@ -137,7 +137,17 @@ enforcerMiddleware.on('error', (err: Error) => {
 
 const controllersPath = path.resolve(__dirname, 'controllers')
 
-app.use(enforcerMiddleware.route(controllersPath, [pool]))
+// app.use(enforcerMiddleware.route(controllersPath, [pool]))
+
+// Here we use an object in the router with imports instead of a file path to the controllers directory.
+app.use(enforcerMiddleware.route(
+  {
+    accounts: import('./controllers/accounts'),
+    // tasksLists: import('./controllers/task-lists')
+    // controllersPath, 
+  },
+  [pool]
+))
 
 
 // Export express app

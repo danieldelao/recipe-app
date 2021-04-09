@@ -20,7 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "nuxt": "^2.14.12",
     "openapi-enforcer": "^1.13.3",
-    "openapi-enforcer-middleware": "^2.0.0-alpha-7",
+    "openapi-enforcer-middleware": "^2.0.0-alpha-11",
     "pg": "^8.5.1",
     "uuid": "^8.3.2"
   },

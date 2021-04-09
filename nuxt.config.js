@@ -1,9 +1,24 @@
+// import data from './static/storedata.json'
+// import axios from 'axios'
+// let dynamicRoutes = () => {
+//  return axios.get('https://your-api-here/products').then(res => {
+//    return res.data.map(product => `/product/${product.recipeId}`)
+//  })
+// }
+
 import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+  modules: [
+    '@nuxtjs/axios'
+  ],
+
+  axios: {
+    baseURL: 'http://localhost:3000',
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - recipe-app',

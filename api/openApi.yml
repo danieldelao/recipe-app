@@ -29,27 +29,27 @@ paths:
   #       409:
   #         description: an existing account already exists
   /accounts:
-    put:
-      tags:
-       - Accounts
-      x-controller: accounts
-      x-operation: authenticateAccount
-      summary: authenticates an account
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/accounts'
-        description: Account to auth
-      responses:
-        200:
-          description: account authenticated
-          headers:
-            Location:
-              schema:
-                type: string
-        400:
-          description: 'invalid input, object invalid'
+    # put:
+    #   tags:
+    #    - Accounts
+    #   x-controller: accounts
+    #   x-operation: login
+    #   summary: authenticates an account
+    #   requestBody:
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: '#/components/schemas/accounts'
+    #     description: Account to auth
+    #   responses:
+    #     200:
+    #       description: account authenticated
+    #       headers:
+    #         Location:
+    #           schema:
+    #             type: string
+    #     400:
+    #       description: 'invalid input, object invalid'
 
     post:
       tags:
@@ -57,8 +57,8 @@ paths:
       x-controller: accounts
       x-operation: createAccount
       summary: adds an account
-      security:
-        - Bearer: []
+      # security:
+      #   - Bearer: []
       description: Adds an account to the system
       requestBody:
         content:

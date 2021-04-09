@@ -1,4 +1,4 @@
-import axios from '~/assets/axios'
+import axios from 'axios'
 
 export const CREATED = 'recipe.created'
 // export const GET = 'recipe.get'
