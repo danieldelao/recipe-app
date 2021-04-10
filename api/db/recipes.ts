@@ -19,16 +19,16 @@ export default  function (conn: PoolClient) {
 
             })
         },
-        async addRecipe (name: string, season:string, rating:number, preptime:string, ingridients: string) {
+        async addRecipe (name: string, season:string, rating:number, preptime:string, ingridients:any) {
             return conn.query({
-                text: 'INSERT INTO recipes (id, name, season, rating) VALUES ($1, $2, $3, $4)',
+                text: 'INSERT INTO recipes (id, name, season, rating, preptime, ingridients) VALUES ($1, $2, $3, $4, $5, $6)',
                 values: [
                     uuid(),
                     name,
                     season,
                     rating,
                     preptime,
-                    ingridients
+                    JSON.stringify(ingridients)
                 ]
 
             })

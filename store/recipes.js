@@ -28,13 +28,30 @@ export const mutations = {
 }
 
 export const actions = {
-
     // create and retrieve a task list
-    async add ({ commit }, name) {
-      let res = await axios.post('/recipe/', { name })
-      if (res.status === 201) {
-        res = await axios.get(res.headers.Location)
-        if (res.status === 200) {
+    async add ({ commit, dispatch }, {name, prepTime}) {
+      console.log("Inside add function, data is:", name, prepTime)
+      let res = await axios
+        ({
+          headers: {
+            Authorization: 'Bearer '+this.state.accounts.token
+          },
+          url: '/api/recipe',
+          method: 'POST',
+          data: {
+            name: name,
+            preptime: prepTime,
+            season: "winter",
+            rating: 5,
+            ingredients: {
+              ingredient: "cheese"
+            }
+          }
+        }).then(function (response){
+          console.log('response is : ' + response.data);
+        if (respose.status === 201) {
+        // res = await axios.get(res.headers.Location)
+        if (respose.status === 200) {
           commit('add', res.data)
           return {
             message: {
@@ -66,6 +83,9 @@ export const actions = {
           [CREATED]: false,
           [GET]: false
         }
-      }
-    },
+      } //last else
+    }).catch(error => {
+      console.log(error.response)
+    });
+    }, //.then
   }

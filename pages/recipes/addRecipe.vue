@@ -172,7 +172,19 @@ export default {
     },
     methods: {
         createRecipe () {
-            this.$store.dispatch('recipes/add', this.form.name)
+          const { name, prepTime } = this.form
+            this.$store.dispatch('recipes/add', {
+              name,
+              prepTime
+            })
+            // if (success) {
+                    // this.$notify({
+                    // type: 'success',
+                    // title: 'Success',
+                    // message: 'Account created.'
+                    // })
+                //     this.$router.push('/recipes/discover')
+                // }
         },
         deleteIngredient(counter){
             this.form.ingredients.splice(counter,1);

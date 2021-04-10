@@ -143,6 +143,7 @@ const controllersPath = path.resolve(__dirname, 'controllers')
 app.use(enforcerMiddleware.route(
   {
     accounts: import('./controllers/accounts'),
+    recipes: import('./controllers/recipes'),
     // tasksLists: import('./controllers/task-lists')
     // controllersPath, 
   },
