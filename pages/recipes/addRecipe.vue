@@ -28,7 +28,7 @@
             <option>1 Hr 10 Min</option> -->
         </v-select>
         <!-- <span>{{ selected }}</span> -->
-        <v-col
+        <!-- <v-col
           cols="12"
           sm="6"
           md="4"
@@ -40,38 +40,109 @@
         filled
         dense
         ></v-text-field>
-        </v-col>
+        </v-col> -->
 
-        <v-btn @click="addIngredient"
-        >
-        Add Additional ingredient
-        </v-btn> 
-
+        <label class="text-gray-600 font-semibold text-lg">Ingredients</label>
         <div
+          v-for="(input, index) in form.ingridients"
+          :key="`ingredientInput-${index}`"
+          class="input wrapper flex items-center"
+        >
+          <input 
+               v-model="input.ingredient"
+               type="text" 
+               class="h-10 rounded-lg outline-none p-2" 
+               placeholder=" Enter Ingredient"     
+          />
+           <!--          Add Svg Icon-->
+          <svg
+
+            @click="addField(input, form.ingridients)"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            class="ml-2 cursor-pointer"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path
+              fill="green"
+              d="M11 11V7h2v4h4v2h-4v4h-2v-4H7v-2h4zm1 11C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
+            />
+          </svg>
+
+          <!--          Remove Svg Icon-->
+          <svg
+            v-show="form.ingridients.length > 1"
+            @click="removeField(index, form.ingridients)"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            class="ml-2 cursor-pointer"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path
+              fill="#EC4899"
+              d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-9.414l2.828-2.829 1.415 1.415L13.414 12l2.829 2.828-1.415 1.415L12 13.414l-2.828 2.829-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586z"
+            />
+          </svg>
+        </div> 
+
+        <!-- <div
                 v-for="(ingredient, counter) in form.ingredients"
                 v-bind:key="counter">
             <span @click="deleteIngredient(counter)">x</span>
             <label>Ingredient {{counter+1}}</label>
             <input type="text" v-model="ingredient.previous" required> 
-        </div>
+        </div> -->
 
-        Steps
-
-        <v-text-field
-        v-model="form.steps"
-        label="Step 1"
-        required
-        ></v-text-field>
-
-        <v-btn
+        <label class="text-gray-600 font-semibold text-lg">Steps</label>
+        <div
+          v-for="(input, index) in form.steps"
+          :key="`stepInput-${index}`"
+          class="input wrapper flex items-center"
         >
-        Add
-        </v-btn>
+          <input 
+               v-model="input.step"
+               type="text" 
+               class="h-10 rounded-lg outline-none p-2" 
+               placeholder=" Enter Step"     
+          />
+           <!--          Add Svg Icon-->
+          <svg
 
-        <v-btn
-        >
-        Add Additional step
-        </v-btn> 
+            @click="addField(input, form.steps)"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            class="ml-2 cursor-pointer"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path
+              fill="green"
+              d="M11 11V7h2v4h4v2h-4v4h-2v-4H7v-2h4zm1 11C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
+            />
+          </svg>
+
+          <!--          Remove Svg Icon-->
+          <svg
+            v-show="form.steps.length > 1"
+            @click="removeField(index, form.steps)"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            class="ml-2 cursor-pointer"
+          >
+            <path fill="none" d="M0 0h24v24H0z" />
+            <path
+              fill="#EC4899"
+              d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-9.414l2.828-2.829 1.415 1.415L13.414 12l2.829 2.828-1.415 1.415L12 13.414l-2.828 2.829-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586z"
+            />
+          </svg>
+        </div> 
 
         Add image
         <v-btn
@@ -100,17 +171,33 @@ export default {
         AppNavigation
     },
     methods: {
-        createTasklist () {
-            this.$store.dispatch('recipes/add', this.form.name)
-        },
-        addIngredient(){
-            this.ingredients.push({
-                ingredient:''
-        })
+        createRecipe () {
+          const { name, prepTime, ingridients } = this.form
+            const success = this.$store.dispatch('recipes/add', {
+              name,
+              prepTime,
+              ingridients
+            })
+            if (success) {
+                    // this.$notify({
+                    // type: 'success',
+                    // title: 'Success',
+                    // message: 'Account created.'
+                    // })
+                    this.$router.push('/recipes/discover')
+                }
         },
         deleteIngredient(counter){
-            this.ingredients.splice(counter,1);
+            this.form.ingridients.splice(counter,1);
+        },
+        addField(value, fieldType) {
+            fieldType.push({ value: "" });
+        },
+        removeField(index, fieldType) {
+            //type.splice(index, 1);
+            fieldType.splice(index, 1);
         }
+        
     },
     data () { 
         return {
@@ -118,10 +205,12 @@ export default {
             form: {
                 name: "",
                 prepTime: "",
-                ingredients: [{
-                    ingredient: ''
-                }],
-                steps: []
+                ingridients: [
+                    {ingredient: ''},
+                ],
+                steps: [
+                    {step: ''},
+                ]
             },
             
         }

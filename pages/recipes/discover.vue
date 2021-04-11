@@ -8,10 +8,15 @@
               <v-row dense>
                 <v-col
                   v-for="card in cards"
-                  :key="card.title"
+                  :key="card.recipeId"
                   :cols="card.flex"
                 >
-                <recipe-card @bookmark='console.log($event)' title="strawberry icecream"></recipe-card>
+                <recipe-card @bookmark='console.log($event)' 
+                  v-bind:name="card.name"
+                  v-bind:user="card.user"
+                  v-bind:prepTime="card.prepTime"
+                  v-bind:flex=4
+                  ></recipe-card>
           </v-col>
         </v-row>
       </v-container>
@@ -25,28 +30,59 @@
 import recipeCard from "~/components/recipeCard.vue";
 
 export default {
+    // computed: {
+    // authenticated () {
+    //   return this.$store.state.accounts.token
+    //   }
+    // },
+
     name: 'app',
     components: {
       recipeCard
     },
-    data: () => ({
-    alignments: [
-      'start',
-      'center',
-      'end',
-    ],
-    cards: [
-      { title: 'Pesto-Pasta', user: 'Claire', time: '30 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 4 },
-      { title: 'Lemon Icecream', user: 'Claire', time: '40 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 4 },
-      { title: 'Baked Oatmeal', user: 'Claire', time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
-      { title: 'Vegetable Gallete', user: 'Claire', time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
-      { title: 'Sweet Potatoe Gnocchi', user: 'Claire',  time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
-      { title: 'Sweet Coconut Rice', user: 'Claire', time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
-      { title: 'Vegetable Gallete', user: 'Claire', time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
-      { title: 'Sweet Potatoe Gnocchi', user: 'Claire',  time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
-      { title: 'Sweet Coconut Rice', user: 'Claire', time: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 4 },
-    ],
-  }),
+    // data: () => ({
+    data () {
+      this.$store.dispatch('recipes/get')
+      return {
+        cards: {
+          id: '',
+          name: '',
+          season: '',
+          rating: '',
+          preptime: '',
+          ingridients: [
+            {
+            ingredient: ""
+            }
+          ], 
+          flex: 4
+        },
+        // modalIsVisible: false
+        alignments: [
+          'start',
+          'center',
+          'end',
+        ],
+      }
+    
+    // cards: [
+    //   { recipeId: 1, name: 'Pesto-Pasta', user: 'Not Claire', prepTime: '30 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg'},
+    //   { recipeId: 2, name: 'Lemon Icecream', user: 'Claire', prepTime: '40 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg'},
+    //   { recipeId: 3, name: 'Baked Oatmeal', user: 'Claire', prepTime: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg'},
+    //   { recipeId: 4, name: 'Vegetable Gallete', user: 'Claire', prepTime: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg'},
+    //   { recipeId: 5, name: 'Sweet Potatoe Gnocchi', user: 'Claire',  prepTime: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg'},
+    //   { recipeId: 6, name: 'Sweet Coconut Rice', user: 'Claire', prepTime: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg'},
+    //   { recipeId: 7, name: 'Basil ice cream', user: 'Claire', prepTime: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg'},
+    //   { recipeId: 8, name: 'Lotz of pizza', user: 'Claire',  prepTime: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg'},
+    //   { recipeId: 9, name: 'Za with corn', user: 'Claire', prepTime: '45 minutes', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg'},
+    // ],
+  // }),
+  },
+  computed: {
+    recipes () {
+      return this.$store.state.recipes
+    }
+  },
 };
 </script>
 

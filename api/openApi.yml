@@ -29,27 +29,27 @@ paths:
   #       409:
   #         description: an existing account already exists
   /accounts:
-    put:
-      tags:
-       - Accounts
-      x-controller: accounts
-      x-operation: authenticateAccount
-      summary: authenticates an account
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/accounts'
-        description: Account to auth
-      responses:
-        200:
-          description: account authenticated
-          headers:
-            Location:
-              schema:
-                type: string
-        400:
-          description: 'invalid input, object invalid'
+    # put:
+    #   tags:
+    #    - Accounts
+    #   x-controller: accounts
+    #   x-operation: login
+    #   summary: authenticates an account
+    #   requestBody:
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: '#/components/schemas/accounts'
+    #     description: Account to auth
+    #   responses:
+    #     200:
+    #       description: account authenticated
+    #       headers:
+    #         Location:
+    #           schema:
+    #             type: string
+    #     400:
+    #       description: 'invalid input, object invalid'
 
     post:
       tags:
@@ -146,27 +146,6 @@ paths:
           description: Internal Server Error
           
   /recipe:
-    get:
-      tags:
-        - All
-      summary: list all recipes from user
-      security:
-        - Bearer: []
-      x-controller: recipes
-      x-operation: getAll
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/recipeList'
-        400:
-          description: bad input parameter
-      
-  /recipe/{recipeId}:
-    parameters:
-       - $ref: '#/components/parameters/RecipeId'
     post: 
       tags:
        - Recipes
@@ -192,6 +171,29 @@ paths:
           description: 'invalid input, object invalid'
         409:
           description: an existing recipe already exists
+          
+    get:
+      tags:
+        - All
+      summary: list all recipes from user
+      security:
+        - Bearer: []
+      x-controller: recipes
+      x-operation: getAll
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recipeList'
+        400:
+          description: bad input parameter
+      
+  /recipe/{recipeId}:
+    parameters:
+       - $ref: '#/components/parameters/RecipeId'
+    
     get:
       summary: get specific recipe info
       tags:
@@ -460,12 +462,18 @@ components:
         season:
           type: string
         ingridients:
-          type: object
-          properties:
-            ingridientsList:
-              type: array
-              items:
-                $ref: '#/components/schemas/ingridients'
+          type: array
+          # properties:
+          items:
+            type: object
+            # ingridientsList:
+            #   type: array
+            #   items:
+            #     $ref: '#/components/schemas/ingridients'
+            # ingridient:
+              # type: object
+              # items:
+              #   $ref: '#/components/schemas/ingridients'
          
     ingridients:
       type: object
