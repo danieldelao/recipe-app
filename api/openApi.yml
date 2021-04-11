@@ -57,8 +57,6 @@ paths:
       x-controller: accounts
       x-operation: createAccount
       summary: adds an account
-      security:
-        - Bearer: []
       description: Adds an account to the system
       requestBody:
         content:

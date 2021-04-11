@@ -13,6 +13,7 @@ CREATE TABLE "recipes" (
   "season" character varying(40) NOT NULL,
   "rating" integer  NOT NULL,
   "ingridients" json NOT NULL,
+  "steps" json NOT NULL,
   "images" character varying(40) NOT NULL,
   PRIMARY KEY ("id")
 );
