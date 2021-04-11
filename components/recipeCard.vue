@@ -43,18 +43,29 @@ export default {
   data: function() {
     return {
       // title: 'Pesto-Pasta', 
-      user: 'Claire', 
-      time: '30 minutes', 
-      src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', 
-      flex: 4 
+      // user: '', 
+      // time: '', 
+      // src: '', 
+      // flex
     }
   },
-  props: [
-    "name",
-    "user",
-    "prepTime",
-    "flex"
-  ]
+  // props: [
+  //   "name",
+  //   "user",
+  //   "prepTime",
+  //   "flex"
+  // ]
+  props: {
+    name: "",
+    user: "",
+    prepTime: "",
+    // flex: {
+    //   default: 4
+    // },
+    src: {
+      default: 'https://cdn.vuetifyjs.com/images/cards/house.jpg'
+    }
+  }
 };
 </script>
 

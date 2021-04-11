@@ -44,7 +44,7 @@
 
         <label class="text-gray-600 font-semibold text-lg">Ingredients</label>
         <div
-          v-for="(input, index) in form.ingredients"
+          v-for="(input, index) in form.ingridients"
           :key="`ingredientInput-${index}`"
           class="input wrapper flex items-center"
         >
@@ -57,7 +57,7 @@
            <!--          Add Svg Icon-->
           <svg
 
-            @click="addField(input, form.ingredients)"
+            @click="addField(input, form.ingridients)"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             width="24"
@@ -73,8 +73,8 @@
 
           <!--          Remove Svg Icon-->
           <svg
-            v-show="form.ingredients.length > 1"
-            @click="removeField(index, form.ingredients)"
+            v-show="form.ingridients.length > 1"
+            @click="removeField(index, form.ingridients)"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             width="24"
@@ -172,22 +172,23 @@ export default {
     },
     methods: {
         createRecipe () {
-          const { name, prepTime } = this.form
-            this.$store.dispatch('recipes/add', {
+          const { name, prepTime, ingridients } = this.form
+            const success = this.$store.dispatch('recipes/add', {
               name,
-              prepTime
+              prepTime,
+              ingridients
             })
-            // if (success) {
+            if (success) {
                     // this.$notify({
                     // type: 'success',
                     // title: 'Success',
                     // message: 'Account created.'
                     // })
-                //     this.$router.push('/recipes/discover')
-                // }
+                    this.$router.push('/recipes/discover')
+                }
         },
         deleteIngredient(counter){
-            this.form.ingredients.splice(counter,1);
+            this.form.ingridients.splice(counter,1);
         },
         addField(value, fieldType) {
             fieldType.push({ value: "" });
@@ -204,7 +205,7 @@ export default {
             form: {
                 name: "",
                 prepTime: "",
-                ingredients: [
+                ingridients: [
                     {ingredient: ''},
                 ],
                 steps: [
