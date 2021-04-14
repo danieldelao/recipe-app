@@ -189,7 +189,7 @@ paths:
                 $ref: '#/components/schemas/recipeList'
         400:
           description: bad input parameter
-  /recipe/{username}:
+  /recipe/get/{username}:
     parameters:
        - $ref: '#/components/parameters/PathUsername'
     
