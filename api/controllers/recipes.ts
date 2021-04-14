@@ -36,8 +36,9 @@ export default function (conn: PoolClient) {
       let preptime = req.body.preptime
       let ingridients = req.body.ingridients
       let steps = req.body.steps
+      let username = req.body.username
       const connection = dbFactory(conn)
-      await connection.recipes.addRecipe(name, season, rating, preptime, ingridients, steps)
+      await connection.recipes.addRecipe(name, season, rating, preptime, ingridients, steps, username)
       res.status(201)
       res.send('Success adding a recipe')
     },
