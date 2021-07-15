@@ -29,6 +29,28 @@ paths:
   #       409:
   #         description: an existing account already exists
   /accounts:
+    put:
+      tags:
+       - Accounts
+      x-controller: accounts
+      x-operation: authenticateAccount
+      summary: authenticates an account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/accounts'
+        description: Account to auth
+      responses:
+        200:
+          description: account authenticated
+          headers:
+            Location:
+              schema:
+                type: string
+        400:
+          description: 'invalid input, object invalid'
+
     post:
       tags:
        - Accounts
@@ -125,15 +147,15 @@ paths:
         500:
           description: Internal Server Error
           
-  /recipelist:
+  /recipe:
     get:
       tags:
-        - Recipe List
+        - All
       summary: list all recipes from user
       security:
         - Bearer: []
-      x-controller: recipesList
-      x-operation: getRecipelist
+      x-controller: recipes
+      x-operation: getAll
       responses:
         200:
           description: Success
@@ -143,16 +165,14 @@ paths:
                 $ref: '#/components/schemas/recipeList'
         400:
           description: bad input parameter
-      
-  /recipe/{recipeId}:
-    parameters:
-       - $ref: '#/components/parameters/RecipeId'
     post: 
       tags:
        - Recipes
       summary: create a new recipe
       security:
         - Bearer: []
+      x-controller: recipes
+      x-operation: addRecipe
       requestBody:
         required: true
         content:
@@ -170,6 +190,11 @@ paths:
           description: 'invalid input, object invalid'
         409:
           description: an existing recipe already exists
+      
+  /recipe/{recipeId}:
+    parameters:
+       - $ref: '#/components/parameters/RecipeId'
+
     get:
       summary: get specific recipe info
       tags:
@@ -225,7 +250,7 @@ paths:
           description: Forbidden
         500:
           description: Internal Server Error
-  /recipe/{recipeId}/ingridents:
+  /recipe/{recipeId}/ingridients:
     parameters:
        - $ref: '#/components/parameters/RecipeId'
     get:
@@ -235,7 +260,28 @@ paths:
       security:
         - Bearer: []
       x-controller: ingridients
-      x-operation: getIngridient
+      x-operation: getAll
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ingridients'
+        '400':
+          description: bad input parameter
+  /recipe/{recipeId}/ingridients/{ingridientId}:
+    parameters:
+       - $ref: '#/components/parameters/RecipeId'
+       - $ref: '#/components/parameters/IngridientId'
+    get:
+      summary: Get ingridients in recipe
+      tags:
+        - Ingridients
+      security:
+        - Bearer: []
+      x-controller: ingridients
+      x-operation: getIngridients
       responses:
         '200':
           description: Success
@@ -252,7 +298,7 @@ paths:
       security:
         - Bearer: []
       x-controller: ingridients
-      x-operation: addIngridient
+      x-operation: addIngridients
       requestBody:
         $ref: '#/components/requestBodies/Ingridient'
       responses:
@@ -268,6 +314,44 @@ paths:
                 $ref: '#/components/schemas/ingridients'
         '400':
           description: bad input parameter
+    put:
+      summary: Update recipe
+      tags:
+       - Ingridients
+      x-controller: ingridients
+      x-operation: updateIngridients
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/Ingridient'
+      responses:
+        200:
+          description: Success
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal Server Error
+    delete:
+      summary: Delete recipe
+      tags:
+       - Ingridients
+      x-controller: ingridients
+      x-operation: deleteIngridients
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: Success
+        401:
+          description: Unathorized
+        403:
+          description: Forbidden
+        500:
+          description: Internal Server Error
   /recipe/{recipeId}/images{imageId}:
     parameters:
        - $ref: '#/components/parameters/RecipeId'
